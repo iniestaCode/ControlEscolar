@@ -10,17 +10,18 @@ namespace CE.Datos
 {
     public class DatosUsuario
     {
-            
+
         public Request<List<Usuario>> GetUsuarios()
         {
             try
             {
-                using(DBConnection db = new DBConnection())
+                using (DBConnection db = new DBConnection())
                 {
                     List<Usuario> listaUsuarios = db.Usuario.ToList();
                     return new Request<List<Usuario>>() { Mensaje = "Se encontraron estos usuarios", Respuesta = listaUsuarios };
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new Request<List<Usuario>>() { Exito = false, Error = ex.Message };
             }
@@ -32,12 +33,13 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario usr= db.Usuario.First(u => u.Usuario1 == usuario);
+                    Usuario usr = db.Usuario.First(u => u.Usuario1 == usuario);
                     return new Request<Usuario>() { Mensaje = "Se encontró el usuario", Respuesta = usr };
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                return new Request<Usuario>() { Exito = false, Error=ex.Message };
+                return new Request<Usuario>() { Exito = false, Error = ex.Message };
             }
         }
 
@@ -45,14 +47,15 @@ namespace CE.Datos
         {
             try
             {
-                using(DBConnection db = new DBConnection())
-                {                                     
-                    Usuario usuarioE = new Usuario() { Usuario1 = usuario, Contrasenia=Encriptar(password), FK_ID_Rol = ID_Rol };
-                    db.Usuario.Add(usuarioE);
+                using (DBConnection db = new DBConnection())
+                {
+                    Usuario usuarioCreado = new Usuario() { Usuario1 = usuario, Contrasenia = Encriptar(password), FK_ID_Rol = ID_Rol };
+                    db.Usuario.Add(usuarioCreado);
                     db.SaveChanges();
-                    return new Request<Usuario> { Mensaje = "Se registró el usuario con éxito", Respuesta = usuarioE };
+                    return new Request<Usuario> { Mensaje = "Se registró el usuario con éxito", Respuesta = usuarioCreado };
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new Request<Usuario>() { Exito = false, Error = ex.Message };
             }
@@ -62,31 +65,41 @@ namespace CE.Datos
         {
             try
             {
-                using(DBConnection db = new DBConnection())
+                using (DBConnection db = new DBConnection())
                 {
-                    Usuario user = db.Usuario.First(u => u.Usuario1==usuario);
-                    db.Usuario.Attach(user);
-                    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    Usuario usuarioEncontrado = db.Usuario.First(u => u.Usuario1 == usuario);
+                    if (usuarioEncontrado == null)
+                    {
+                        return new Request<Usuario>() { Error = "El usuario no existe", Exito = false };
+                    }
+                    usuarioEncontrado.Usuario1 = usuario;
+                    db.Usuario.Attach(usuarioEncontrado);
+                    db.Entry(usuarioEncontrado).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return new Request<Usuario>() { Mensaje = "Se modificó el usuario con éxito", Respuesta=user };
+                    return new Request<Usuario>() { Mensaje = "Se modificó el usuario con éxito", Respuesta = usuarioEncontrado };
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new Request<Usuario>() { Exito = false, Error = ex.Message };
             }
         }
-        public Request<Usuario> ChangeContrasenia (string usuario, string password)
+        public Request<Usuario> ChangeContrasenia(string usuario, string password)
         {
             try
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario user = db.Usuario.First(u => u.Usuario1 == usuario);
-                    user.Contrasenia = Encriptar(password);
-                    db.Usuario.Attach(user);
-                    db.Entry(user).State = System.Data.Entity.EntityState.Modified;
+                    Usuario usuarioEncontrado = db.Usuario.First(u => u.Usuario1 == usuario);
+                    if (usuarioEncontrado == null)
+                    {
+                        return new Request<Usuario>() { Error = "El usuario no existe", Exito = false };
+                    }
+                    usuarioEncontrado.Contrasenia = Encriptar(password);
+                    db.Usuario.Attach(usuarioEncontrado);
+                    db.Entry(usuarioEncontrado).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return new Request<Usuario>() { Mensaje = "Se modificó la contraseña con éxito", Respuesta = user };
+                    return new Request<Usuario>() { Mensaje = "Se modificó la contraseña", Respuesta = usuarioEncontrado };
                 }
             }
             catch (Exception ex)
@@ -101,10 +114,10 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario user = db.Usuario.First(u => u.Usuario1 == usuario);
-                    db.Usuario.Remove(user);
+                    Usuario usuarioEncontrado = db.Usuario.First(u => u.Usuario1 == usuario);
+                    db.Usuario.Remove(usuarioEncontrado);
                     db.SaveChanges();
-                    return new Request<Usuario>() {  Respuesta = user };
+                    return new Request<Usuario>() { Mensaje = "Se eliminó el usuario" };
                 }
             }
             catch (Exception ex)
@@ -113,35 +126,36 @@ namespace CE.Datos
             }
         }
 
-        public Request<Usuario> Login (string usuario, string password)
+        public Request<Usuario> Login(string usuario, string password)
         {
             try
             {
-                using(DBConnection db = new DBConnection())
+                using (DBConnection db = new DBConnection())
                 {
                     Usuario user = db.Usuario.First(u => u.Usuario1 == usuario);
-                    if(user != null)
+                    if (user != null)
                     {
-                        if(user.Contrasenia == Encriptar(password))
+                        if (user.Contrasenia == Encriptar(password))
                         {
                             return new Request<Usuario>() { Mensaje = "Bienvenido", Respuesta = user };
                         }
                         else
                         {
-                            return new Request<Usuario>() { Exito = false, Mensaje = "Datos incorrectos", Respuesta = user };
+                            return new Request<Usuario>() { Exito = false, Error = "Datos incorrectos", Respuesta = user };
                         }
                     }
                     else
                     {
-                        return new Request<Usuario>() { Exito = false, Mensaje = "El usuario no existe" };
+                        return new Request<Usuario>() { Exito = false, Error = "El usuario no existe" };
                     }
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new Request<Usuario>() { Exito = false, Error = ex.Message };
             }
         }
-      
+
         public static string Encriptar(string _cadenaAencriptar)
         {
             string result = string.Empty;
@@ -151,7 +165,7 @@ namespace CE.Datos
             return result;
         }
 
-        
+
         public static string DesEncriptar(string _cadenaAdesencriptar)
         {
             string result = string.Empty;

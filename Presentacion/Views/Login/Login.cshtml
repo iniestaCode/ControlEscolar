@@ -1,8 +1,19 @@
-﻿@{ 
+﻿@{
     Layout = "../Shared/BasePrincipal.cshtml";
     ViewBag.Title = "Iniciar Sesión";
 }
-
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Error
+    </div>
+}
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Mensaje
+    </div>
+}
 <body class="bg-gradient-primary">
 
     <div class="container">
@@ -21,7 +32,7 @@
                                 <div class="p-5">
                                     <div class="text-center">
                                         <h1 class="h4 text-gray-900 mb-4">!Hola, Bienvenido!</h1>
-                                    </div>            
+                                    </div>
                                     <p style="color:forestgreen">@ViewBag.Exito</p>
                                     <p style="color:red;"><b>@ViewBag.ErrorLogin</b></p>
                                     <form class="user" action="/Login/Login" method="post">
@@ -33,14 +44,14 @@
                                         <div class="form-group">
                                             <input type="password" class="form-control form-control-user"
                                                    id="password" name="password" placeholder="Contraseña" required>
-                                        </div>      
+                                        </div>
                                         <center><p style="color:red; font-size:1rem">@ViewBag.Error</p></center>
                                         <button type="submit" class="btn btn-primary btn-user btn-block">
                                             Iniciar Sesión
                                         </button>
-                                        <hr>                                       
+                                        <hr>
                                     </form>
-                                    <hr>                                 
+                                    <hr>
                                     <div class="text-center">
                                         <a class="small" href="/Registro/Create">¿No te has registrado?, da click aquí.</a>
                                     </div>
@@ -58,7 +69,7 @@
 
 </body>
 <script>
-    if ( window.history.replaceState ) {
-        window.history.replaceState( null, null, window.location.href );
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
     }
 </script>

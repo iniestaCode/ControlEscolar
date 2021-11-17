@@ -15,7 +15,7 @@ namespace CE.Negocio
 
         public Request<Materia> GetMateria(int ID_Materia) => datosMateria.GetMateria(ID_Materia);
 
-        public Request<Materia> CreateMateria(string nombre, double costo) => datosMateria.CreateAlumno(nombre, costo);
+        public Request<Materia> CreateMateria(string nombre, double costo) => datosMateria.CreateMateria(nombre, costo);
 
         public Request<Materia> UpdateMateria(string nombre, double costo, int ID_Materia) => datosMateria.UpdateMateria(nombre, costo, ID_Materia);
 

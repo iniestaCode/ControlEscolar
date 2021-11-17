@@ -17,7 +17,7 @@ namespace CE.Negocio
 
         public Request<Alumno> GetAlumno(string usuario) => datosAlumno.GetAlumno(usuario);
 
-        public Request<Alumno> CreateAlumno(string nombre, string apePaterno, string apeMaterno, string usuario) => datosAlumno.CreateAlumno(nombre, apePaterno, apeMaterno, usuario);
+        public Request<Alumno> CreateAlumno(string nombre, string apePaterno, string apeMaterno, string usuario,string password) => datosAlumno.CreateAlumno(nombre, apePaterno, apeMaterno, usuario,password);
 
         public Request<Alumno> UpdateAlumno(string nombre, string apePaterno, string apeMaterno, string usuario) => datosAlumno.UpdateAlumno(nombre, apePaterno, apeMaterno, usuario);
 

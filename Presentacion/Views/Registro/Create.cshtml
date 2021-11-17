@@ -3,7 +3,18 @@
     ViewBag.Title = "Crear cuenta";
     Layout = "~/Views/Shared/BasePrincipal.cshtml";
 }
-
+@if (ViewBag.Error != null)
+{
+    <div class="alert alert-danger" role="alert">
+        @ViewBag.Error
+    </div>
+}
+@if (ViewBag.Mensaje != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Mensaje
+    </div>
+}
 <body class="bg-gradient-primary">
 
     <div class="container">
@@ -50,15 +61,15 @@
                                         <input type="password" class="form-control form-control-user"
                                                id="password2" name="password2" placeholder="Repite Contraseña" required>
                                     </div>
-                                </div>                                
+                                </div>
                                 <button type="button" id="btn" name="btn" onclick="coincidePassword()" class="btn btn-primary btn-user btn-block">
                                     Crear Cuenta
                                 </button>
                                 <hr>
                             </form>
-                            <hr>                            
+                            <hr>
                             <div class="text-center">
-                                <a class="small"  href="/Login/Login">¿Ya tienes una cuenta? ¡Inicia Sesión!</a>
+                                <a class="small" href="/Login/Login">¿Ya tienes una cuenta? ¡Inicia Sesión!</a>
                             </div>
                         </div>
                     </div>
@@ -69,29 +80,29 @@
     </div>
 </body>
 <script>
-   
+
     function coincidePassword() {
         alert("ss");
-            var pass1 = $('#password');
-            var pass2 = $('#password2');
-            var valor1 = pass1.val();
-            var valor2 = pass2.val();
-            //muestro el span
-            span.show().removeClass();
-            //condiciones dentro de la función
-            if (valor1 != valor2) {
-                span.text(negacion).addClass('negacion');
-            }
-            if (valor1.length == 0 || valor1 == "") {
-                span.text(vacio).addClass('negacion');
-            }
-            if (valor1.length < 6 || valor1.length > 10) {
-                span.text(longitud).addClass('negacion');
-            }
-            if (valor1.length != 0 && valor1 == valor2) {
-                span.text(confirmacion).removeClass("negacion").addClass('confirmacion');
-            }
-        
+        var pass1 = $('#password');
+        var pass2 = $('#password2');
+        var valor1 = pass1.val();
+        var valor2 = pass2.val();
+        //muestro el span
+        span.show().removeClass();
+        //condiciones dentro de la función
+        if (valor1 != valor2) {
+            span.text(negacion).addClass('negacion');
+        }
+        if (valor1.length == 0 || valor1 == "") {
+            span.text(vacio).addClass('negacion');
+        }
+        if (valor1.length < 6 || valor1.length > 10) {
+            span.text(longitud).addClass('negacion');
+        }
+        if (valor1.length != 0 && valor1 == valor2) {
+            span.text(confirmacion).removeClass("negacion").addClass('confirmacion');
+        }
+
         //ejecuto la función al soltar la tecla
         pass2.keypress(function () {
             coincidePassword();
