@@ -1,0 +1,55 @@
+﻿@using System.Collections.Generic;
+@model IEnumerable<CE.Entidades.Materia>
+@{
+
+    var request = ViewBag.request;
+    ViewBag.Title = "Index";
+    ViewBag.Nombre = ViewBag.nom;
+    ViewBag.ApellidoPaterno = ViewBag.ape;
+    Layout = "~/Views/Shared/BaseIndex.cshtml";
+}
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Tabla Materias</h6>
+    </div>
+    <p style="color:forestgreen">@ViewBag.Exito</p>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>ID_Materia</th>
+                        <th>Nombre</th>
+                        <th>Costo</th>                       
+                        <th><a> Ver </a></th>
+                        <th><a> Editar </a></th>
+                        <th><a> Eliminar </a></th>
+                    </tr>
+                </thead>                
+                <tbody>
+                    @{
+
+                        foreach (var item in Model)
+                        {
+                                        <tr>
+
+                                            <td> @item.ID_Materia </td>
+
+                                            <td> @item.Nombre_Materia </td>
+
+                                            <td> @item.Costo_Materia </td>
+                                       
+
+                                            <td><a class="btn btn-success" href="/Materia/Details/@item.ID_Materia"> <span class="icon text-white-50"></span><span class="text">Ver</span></a></td>
+                                            <td><a class="btn btn-warning" href="/Materia/Edit/@item.ID_Materia"> <span class="icon text-white-50"></span><span class="text">Editar</span></a></td>                                         
+                                            <td><a class="btn btn-danger" href="/Materia/Delete/@item.ID_Materia"> <span class="icon text-white-50"></span><span class="text">Eliminar</span></a></td>
+                                        </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+

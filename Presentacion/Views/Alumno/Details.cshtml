@@ -1,0 +1,36 @@
+﻿@model CE.Entidades.Alumno
+@{
+    ViewBag.Title = "Details";    
+    ViewBag.Nombre = ViewBag.nom;
+    ViewBag.ApellidoPaterno = ViewBag.ape;    
+    Layout = "~/Views/Shared/BaseIndex.cshtml";
+}
+
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user" id="nombre" value="@Model.Nombre_Alumno" name="nombre"
+               placeholder="Nombre" readonly>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="text" class="form-control form-control-user" id="apePaterno" value="@Model.ApePaterno_Alumno" name="apePaterno"
+                   placeholder="Apellido Materno" readonly>
+        </div>
+        <div class="col-sm-6">
+            <input type="text" class="form-control form-control-user" id="apeMaterno" value="@Model.ApeMaterno_Alumno" name="apeMaterno"
+                   placeholder="Apellido Materno" readonly>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user" id="usuario" value="@Model.FK_ID_Usuario" name="usuario"
+               placeholder="Usuario" readonly>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user" id="usuario" value="@Model.ID_Alumno" hidden name="usuario"
+               placeholder="Usuario" readonly>
+    </div>
+    <hr>
+   
+    <a class="btn btn-primary btn-user btn-block" href="/Alumno/Index"> Regresar</a>
+
+

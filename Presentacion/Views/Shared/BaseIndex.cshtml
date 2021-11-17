@@ -1,0 +1,202 @@
+﻿@using CE.Entidades;
+
+@{
+    ViewBag.Title = "Inicio";
+    Layout = "~/Views/Shared/BasePrincipal.cshtml";
+
+    CE.Entidades.Alumno alum = (CE.Entidades.Alumno)Session["Usuario"];
+
+}
+@if (alum != null)
+{
+<div>
+    <body id="page-top">
+
+        <!-- Page Wrapper -->
+        <div id="wrapper">
+
+            <!-- Sidebar -->
+            <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+                <!-- Sidebar - Brand -->
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+                    <div class="sidebar-brand-icon rotate-n-15">
+                        <i class="fas fa-laugh-wink"></i>
+                    </div>
+                    <div class="sidebar-brand-text mx-3">Bienvenido @ViewData["Nombre"]</div>
+
+
+                </a>
+
+                <!-- Divider -->
+
+                @if (alum.FK_ID_Usuario != "admin")
+                {
+
+                    <div>
+                        <hr class="sidebar-divider my-0">
+
+                        <!-- Nav Item - Dashboard -->
+                        <div>
+                    <li class="nav-item active">
+                        <a class="nav-link">
+                            <span>Mis Materias</span>
+                        </a>
+
+                    </li>
+            </div>
+            <hr class="sidebar-divider">
+
+            <div>
+                <li class="nav-item">
+                    <a class="nav-link" href="/AlumnoMateria/Create">
+                        <span>Cotizar Materias</span>
+                    </a>
+                </li>
+            </div>
+            <hr class="sidebar-divider">
+    </div>
+                }
+
+
+                @if (alum.FK_ID_Usuario == "admin" && alum != null)
+                {
+                    <div>
+                        <hr class="sidebar-divider my-0">
+
+                        <!-- Nav Item - Dashboard -->
+                        <li class="nav-item active">
+                            <a class="nav-link">
+                                <span>Materias</span>
+                            </a>
+                        </li>
+                        <hr class="sidebar-divider">
+
+                        <li class="nav-item">
+                            <a class="nav-link " href="/Materia/Create">
+                                <span>Agregar Materias</span>
+                            </a>
+                        </li>
+
+                        <li class="nav-item">
+                            <a class="nav-link" href="/Materia/Index">
+                                <span>Ver Materias</span>
+                            </a>
+                        </li>
+                        <hr class="sidebar-divider">
+                    </div>
+
+                    <div>
+                        <div>
+                            <hr class="sidebar-divider my-0">
+
+                            <!-- Nav Item - Dashboard -->
+                            <li class="nav-item active">
+                                <a class="nav-link">
+                                    <span>Alumnos</span>
+                                </a>
+                            </li>
+                            <hr class="sidebar-divider">
+
+                            <li class="nav-item">
+                                <a class="nav-link " href="/Alumno/Create">
+                                    <span>Registrar Alumno</span>
+                                </a>
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Alumno/Index">
+                                    <span>Ver Alumnos</span>
+                                </a>
+                            </li>
+                            <hr class="sidebar-divider">
+                        </div>
+                    </div>
+                }
+
+
+                <li class="nav-item">
+                    <a class="nav-link " href="/Login/Logout">
+                        <span><b>Cerrar Sesión</b></span>
+                    </a>
+                </li>
+
+                <hr class="sidebar-divider d-none d-md-block">
+
+
+                </ul>
+                <!-- End of Sidebar -->
+                <!-- Content Wrapper -->
+                <div id="content-wrapper" class="d-flex flex-column">
+
+                    <!-- Main Content -->
+                    <div id="content">
+
+                        <!-- Topbar -->
+                        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+                            <!-- Topbar Navbar -->
+                            <ul class="navbar-nav ml-auto">
+
+                                <div class="topbar-divider d-none d-sm-block"></div>
+
+                                <!-- Nav Item - User Information -->
+                                <li class="nav-item dropdown no-arrow">
+                                    <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
+                                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span class="mr-2 d-none d-lg-inline text-gray-600 small">@ViewData["Nombre"] @ViewData["ApellidoPaterno"]</span>
+                                        <img class="img-profile rounded-circle"
+                                             src="https://lh3.googleusercontent.com/proxy/WHIwpsG7h6OxlgXY5A2LmebCRV-VeujOTEMeLJ8sO6q-_Hh9zwJD0E5S8V04gVx4frA-Kqi2-g9t5Lp3MsYlMlinY5uhuRMT9IDY0_XlLz8DkROMRrc">
+                                    </a>
+                                </li>
+
+                            </ul>
+
+                        </nav>
+                        <!-- End of Topbar -->
+                        <!-- Begin Page Content -->
+                        <div class="container-fluid">
+
+                            <!-- Content Row -->
+                            <div class="row">
+                                @RenderBody()
+
+                            </div>
+                            <!-- /.container-fluid -->
+
+                        </div>
+                        <!-- End of Main Content -->
+                        <!-- Footer -->
+                        <footer class="sticky-footer bg-white">
+                            <div class="container my-auto">
+                                <div class="copyright text-center my-auto">
+                                    <span>Copyright &copy; Control Escolar - 2021</span>
+                                </div>
+                            </div>
+                        </footer>
+                        <!-- End of Footer -->
+
+                    </div>
+                    <!-- End of Content Wrapper -->
+
+                </div>
+                <!-- End of Page Wrapper -->
+                <!-- Bootstrap core JavaScript-->
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+                <!-- Core plugin JavaScript-->
+                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                <!-- Custom scripts for all pages-->
+                <script src="js/sb-admin-2.min.js"></script>
+
+                <!-- Page level plugins -->
+                <script src="vendor/chart.js/Chart.min.js"></script>
+
+                <!-- Page level custom scripts -->
+                <script src="js/demo/chart-area-demo.js"></script>
+                <script src="js/demo/chart-pie-demo.js"></script>
+
+                </body></div>
+}

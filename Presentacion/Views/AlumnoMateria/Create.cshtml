@@ -1,0 +1,87 @@
+﻿@model IEnumerable<CE.Entidades.Materia>
+@{
+    ViewBag.Title = "Escoger Materias";
+    ViewBag.Nombre = ViewBag.nom;
+    ViewBag.ApellidoPaterno = ViewBag.ape;
+    Layout = "~/Views/Shared/BaseIndex.cshtml";
+    List<CE.Entidades.Materia> listaMaterias = new List<CE.Entidades.Materia>();
+    listaMaterias.Add(ViewBag.Materia);
+}
+
+@{
+    foreach (var item in Model)
+    {
+
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-success shadow h-100 py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                                @item.Nombre_Materia
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800"> <p id="monto">$ @item.Costo_Materia</p></div>
+                        </div>
+                        <div class="col-auto">
+                            <button type="submit" name="agregar" onclick="myfunction(@item.ID_Materia, $('#subtotal').val(),'@item.Nombre_Materia','@item.Costo_Materia')" id="agregar" class="btn btn-success">Agregar</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    }
+}
+<div class="form-group row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+            Total a pagar
+        </div>
+        <input type="text" class="form-control form-control-user" readonly value="0" id="subtotal" name="subtotal"
+               placeholder="Subtotal">
+    </div>
+</div>
+        <div class="card shadow mb-4">
+            <div class="card-header py-3">
+                <h6 class="m-0 font-weight-bold text-primary">Materias Agregadas</h6>
+            </div>
+            <p style="color:forestgreen">@ViewBag.Exito</p>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                        <thead>
+                            <tr>                          
+                                <th>Nombre</th>
+                                <th>Costo</th>                                                            
+                            </tr>
+                        </thead>
+                        <tbody>                                                       
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    
+        <script>
+    // Evento que envía una petición Ajax al servidor
+    function myfunction(id,montoQ,nombre,costo) {
+           $.ajax({
+            type: "GET",
+            url: '@Url.Action("ObtenerMonto","AlumnoMateria")',
+            contentType: "application/json; charset=utf-8",
+               data: { ID_Materia: id, monto: parseFloat(montoQ) },
+            dataType: "json",
+               success: function (s) {
+                    agregar(id,nombre,costo)
+                   $('#subtotal').val(s);
+               },
+               error: function () {alert("Error")}
+        });
+            }
+
+        function agregar(id, nombre, costo) {            
+            $('#dataTable').append("<tr id='" + id + costo + "'><td>" + nombre + "</td><td>" + costo + "</td></tr>");
+            }
+           
+       
+        </script>

@@ -1,0 +1,41 @@
+﻿@model CE.Entidades.Alumno
+@{
+    ViewBag.Title = "Editar";
+    ViewBag.Nombre = ViewBag.nom;
+    ViewBag.ApellidoPaterno = ViewBag.ape;
+    Layout = "~/Views/Shared/BaseIndex.cshtml";
+}
+
+<p style="color:red"> @ViewBag.Error</p>
+<form class="user" method="post" action="/Alumno/Edit">
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user text-uppercase" id="nombre" value="@Model.Nombre_Alumno" name="nombre"
+               placeholder="Nombre" pattern="[A-Z]" required>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="text" class="form-control form-control-user text-uppercase" id="apePaterno" value="@Model.ApePaterno_Alumno" name="apePaterno"
+                   placeholder="Apellido Materno" pattern="[A-Z][a-z]" required>
+        </div>
+        <div class="col-sm-6">
+            <input type="text" class="form-control form-control-user text-uppercase" id="apeMaterno" value="@Model.ApeMaterno_Alumno" name="apeMaterno"
+                   placeholder="Apellido Materno" pattern="[A-Z]" required>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user" id="usuario" value="@Model.FK_ID_Usuario" name="usuario"
+               placeholder="Usuario" readonly required>
+    </div>
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user" id="ID_Alumno" value="@Model.ID_Alumno" hidden readonly name="ID_Alumno"
+               placeholder="ID" required>
+    </div>
+    <hr>
+    <button type="submit" class="btn btn-primary btn-user btn-block">
+        Guardar Datos
+    </button>
+    <a class="btn btn-primary btn-user btn-block" href="/Alumno/Index"> Regresar</a>
+
+</form>
+

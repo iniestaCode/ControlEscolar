@@ -1,0 +1,36 @@
+﻿@model CE.Entidades.Materia
+@{
+    ViewBag.Title = "Editar";
+    ViewBag.Nombre = ViewBag.nom;
+    ViewBag.ApellidoPaterno = ViewBag.ape;
+    Layout = "~/Views/Shared/BaseIndex.cshtml";
+}
+
+<p style="color:red"> @ViewBag.Error</p>
+<form class="user" method="post" action="/Materia/Edit">
+    <div class="form-group">
+        <input type="text" class="form-control form-control-user text-uppercase" id="nombre" value="@Model.Nombre_Materia" name="nombre"
+               placeholder="Nombre" pattern="[A-Z]" required>
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="text" class="form-control form-control-user " id="apePaterno" value="@Model.Costo_Materia" name="costo"
+                   placeholder="Apellido Materno" pattern="[0-9]"required>
+        </div>
+
+    </div>
+    <div class="form-group row">
+        <div class="col-sm-6 mb-3 mb-sm-0">
+            <input type="text" class="form-control form-control-user" id="apePaterno" value="@Model.ID_Materia" name="id"
+                    hidden required>
+        </div>
+
+    </div>
+    <hr>
+    <button type="submit" class="btn btn-primary btn-user btn-block">
+        Guardar Datos
+    </button>
+    <a class="btn btn-primary btn-user btn-block" href="/Materia/Index"> Regresar</a>
+
+</form>
+

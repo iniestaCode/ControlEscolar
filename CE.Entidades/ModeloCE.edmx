@@ -1,0 +1,362 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="PruebaExamen.ControlEscolarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="ID_Alumno" />
+          </Key>
+          <Property Name="ID_Alumno" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Alumno" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApePaterno_Alumno" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="ApeMaterno_Alumno" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Activo_Alumno" Type="nchar" MaxLength="1" Nullable="false" />
+          <Property Name="FK_ID_Usuario" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Alumno_Materia">
+          <Key>
+            <PropertyRef Name="ID_Alumno_Materia" />
+          </Key>
+          <Property Name="ID_Alumno_Materia" Type="int" Nullable="false" />
+          <Property Name="FK_ID_Alumno" Type="int" Nullable="false" />
+          <Property Name="FK_ID_Materia" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Materia">
+          <Key>
+            <PropertyRef Name="ID_Materia" />
+          </Key>
+          <Property Name="ID_Materia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Materia" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Costo_Materia" Type="decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Activo_Materia" Type="nchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="ID_Rol" />
+          </Key>
+          <Property Name="ID_Rol" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Nombre_Rol" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Activo_Rol" Type="nchar" MaxLength="1" Nullable="false" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="principal_id" Type="int" Nullable="false" />
+          <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="version" Type="int" />
+          <Property Name="definition" Type="varbinary(max)" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Usuario" />
+          </Key>
+          <Property Name="Usuario" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="Contrasenia" Type="nvarchar" MaxLength="150" Nullable="false" />
+          <Property Name="FK_ID_Rol" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Alumno_Materia_Alumno">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="Alumno_Materia" Type="Self.Alumno_Materia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="ID_Alumno" />
+            </Principal>
+            <Dependent Role="Alumno_Materia">
+              <PropertyRef Name="FK_ID_Alumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alumno_Materia_Materia">
+          <End Role="Materia" Type="Self.Materia" Multiplicity="1" />
+          <End Role="Alumno_Materia" Type="Self.Alumno_Materia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="ID_Materia" />
+            </Principal>
+            <Dependent Role="Alumno_Materia">
+              <PropertyRef Name="FK_ID_Materia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alumno_User">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Usuario" />
+            </Principal>
+            <Dependent Role="Alumno">
+              <PropertyRef Name="FK_ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="ID_Rol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="FK_ID_Rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="PruebaExamenControlEscolarModelStoreContainer">
+          <EntitySet Name="Alumno" EntityType="Self.Alumno" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Alumno_Materia" EntityType="Self.Alumno_Materia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Materia" EntityType="Self.Materia" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Alumno_Materia_Alumno" Association="Self.FK_Alumno_Materia_Alumno">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="Alumno_Materia" EntitySet="Alumno_Materia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alumno_Materia_Materia" Association="Self.FK_Alumno_Materia_Materia">
+            <End Role="Materia" EntitySet="Materia" />
+            <End Role="Alumno_Materia" EntitySet="Alumno_Materia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alumno_User" Association="Self.FK_Alumno_User">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Alumno" EntitySet="Alumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Rol" Association="Self.FK_User_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="PruebaExamen.ControlEscolarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Alumno">
+          <Key>
+            <PropertyRef Name="ID_Alumno" />
+          </Key>
+          <Property Name="ID_Alumno" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Alumno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApePaterno_Alumno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ApeMaterno_Alumno" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Activo_Alumno" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="FK_ID_Usuario" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Alumno_Materia" Relationship="Self.FK_Alumno_Materia_Alumno" FromRole="Alumno" ToRole="Alumno_Materia" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_Alumno_User" FromRole="Alumno" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="Alumno_Materia">
+          <Key>
+            <PropertyRef Name="ID_Alumno_Materia" />
+          </Key>
+          <Property Name="ID_Alumno_Materia" Type="Int32" Nullable="false" />
+          <Property Name="FK_ID_Alumno" Type="Int32" Nullable="false" />
+          <Property Name="FK_ID_Materia" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Alumno" Relationship="Self.FK_Alumno_Materia_Alumno" FromRole="Alumno_Materia" ToRole="Alumno" />
+          <NavigationProperty Name="Materia" Relationship="Self.FK_Alumno_Materia_Materia" FromRole="Alumno_Materia" ToRole="Materia" />
+        </EntityType>
+        <EntityType Name="Materia">
+          <Key>
+            <PropertyRef Name="ID_Materia" />
+          </Key>
+          <Property Name="ID_Materia" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Materia" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Costo_Materia" Type="Decimal" Precision="10" Scale="2" Nullable="false" />
+          <Property Name="Activo_Materia" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Alumno_Materia" Relationship="Self.FK_Alumno_Materia_Materia" FromRole="Materia" ToRole="Alumno_Materia" />
+        </EntityType>
+        <EntityType Name="Rol">
+          <Key>
+            <PropertyRef Name="ID_Rol" />
+          </Key>
+          <Property Name="ID_Rol" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Nombre_Rol" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Activo_Rol" Type="String" MaxLength="1" FixedLength="true" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Usuario" Relationship="Self.FK_User_Rol" FromRole="Rol" ToRole="Usuario" />
+        </EntityType>
+        <EntityType Name="sysdiagrams">
+          <Key>
+            <PropertyRef Name="diagram_id" />
+          </Key>
+          <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="principal_id" Type="Int32" Nullable="false" />
+          <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="version" Type="Int32" />
+          <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+        </EntityType>
+        <EntityType Name="Usuario">
+          <Key>
+            <PropertyRef Name="Usuario1" />
+          </Key>
+          <Property Name="Usuario1" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Contrasenia" Type="String" MaxLength="150" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FK_ID_Rol" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Alumno" Relationship="Self.FK_Alumno_User" FromRole="Usuario" ToRole="Alumno" />
+          <NavigationProperty Name="Rol" Relationship="Self.FK_User_Rol" FromRole="Usuario" ToRole="Rol" />
+        </EntityType>
+        <Association Name="FK_Alumno_Materia_Alumno">
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="1" />
+          <End Role="Alumno_Materia" Type="Self.Alumno_Materia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Alumno">
+              <PropertyRef Name="ID_Alumno" />
+            </Principal>
+            <Dependent Role="Alumno_Materia">
+              <PropertyRef Name="FK_ID_Alumno" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alumno_User">
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="1" />
+          <End Role="Alumno" Type="Self.Alumno" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Usuario">
+              <PropertyRef Name="Usuario1" />
+            </Principal>
+            <Dependent Role="Alumno">
+              <PropertyRef Name="FK_ID_Usuario" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Alumno_Materia_Materia">
+          <End Role="Materia" Type="Self.Materia" Multiplicity="1" />
+          <End Role="Alumno_Materia" Type="Self.Alumno_Materia" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Materia">
+              <PropertyRef Name="ID_Materia" />
+            </Principal>
+            <Dependent Role="Alumno_Materia">
+              <PropertyRef Name="FK_ID_Materia" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_User_Rol">
+          <End Role="Rol" Type="Self.Rol" Multiplicity="1" />
+          <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Rol">
+              <PropertyRef Name="ID_Rol" />
+            </Principal>
+            <Dependent Role="Usuario">
+              <PropertyRef Name="FK_ID_Rol" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBConnection" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Alumno" EntityType="Self.Alumno" />
+          <EntitySet Name="Alumno_Materia" EntityType="Self.Alumno_Materia" />
+          <EntitySet Name="Materia" EntityType="Self.Materia" />
+          <EntitySet Name="Rol" EntityType="Self.Rol" />
+          <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+          <EntitySet Name="Usuario" EntityType="Self.Usuario" />
+          <AssociationSet Name="FK_Alumno_Materia_Alumno" Association="Self.FK_Alumno_Materia_Alumno">
+            <End Role="Alumno" EntitySet="Alumno" />
+            <End Role="Alumno_Materia" EntitySet="Alumno_Materia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alumno_User" Association="Self.FK_Alumno_User">
+            <End Role="Usuario" EntitySet="Usuario" />
+            <End Role="Alumno" EntitySet="Alumno" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Alumno_Materia_Materia" Association="Self.FK_Alumno_Materia_Materia">
+            <End Role="Materia" EntitySet="Materia" />
+            <End Role="Alumno_Materia" EntitySet="Alumno_Materia" />
+          </AssociationSet>
+          <AssociationSet Name="FK_User_Rol" Association="Self.FK_User_Rol">
+            <End Role="Rol" EntitySet="Rol" />
+            <End Role="Usuario" EntitySet="Usuario" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="PruebaExamenControlEscolarModelStoreContainer" CdmEntityContainer="DBConnection">
+          <EntitySetMapping Name="Alumno">
+            <EntityTypeMapping TypeName="PruebaExamen.ControlEscolarModel.Alumno">
+              <MappingFragment StoreEntitySet="Alumno">
+                <ScalarProperty Name="ID_Alumno" ColumnName="ID_Alumno" />
+                <ScalarProperty Name="Nombre_Alumno" ColumnName="Nombre_Alumno" />
+                <ScalarProperty Name="ApePaterno_Alumno" ColumnName="ApePaterno_Alumno" />
+                <ScalarProperty Name="ApeMaterno_Alumno" ColumnName="ApeMaterno_Alumno" />
+                <ScalarProperty Name="Activo_Alumno" ColumnName="Activo_Alumno" />
+                <ScalarProperty Name="FK_ID_Usuario" ColumnName="FK_ID_Usuario" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Alumno_Materia">
+            <EntityTypeMapping TypeName="PruebaExamen.ControlEscolarModel.Alumno_Materia">
+              <MappingFragment StoreEntitySet="Alumno_Materia">
+                <ScalarProperty Name="ID_Alumno_Materia" ColumnName="ID_Alumno_Materia" />
+                <ScalarProperty Name="FK_ID_Alumno" ColumnName="FK_ID_Alumno" />
+                <ScalarProperty Name="FK_ID_Materia" ColumnName="FK_ID_Materia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Materia">
+            <EntityTypeMapping TypeName="PruebaExamen.ControlEscolarModel.Materia">
+              <MappingFragment StoreEntitySet="Materia">
+                <ScalarProperty Name="ID_Materia" ColumnName="ID_Materia" />
+                <ScalarProperty Name="Nombre_Materia" ColumnName="Nombre_Materia" />
+                <ScalarProperty Name="Costo_Materia" ColumnName="Costo_Materia" />
+                <ScalarProperty Name="Activo_Materia" ColumnName="Activo_Materia" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Rol">
+            <EntityTypeMapping TypeName="PruebaExamen.ControlEscolarModel.Rol">
+              <MappingFragment StoreEntitySet="Rol">
+                <ScalarProperty Name="ID_Rol" ColumnName="ID_Rol" />
+                <ScalarProperty Name="Nombre_Rol" ColumnName="Nombre_Rol" />
+                <ScalarProperty Name="Activo_Rol" ColumnName="Activo_Rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="sysdiagrams">
+            <EntityTypeMapping TypeName="PruebaExamen.ControlEscolarModel.sysdiagrams">
+              <MappingFragment StoreEntitySet="sysdiagrams">
+                <ScalarProperty Name="name" ColumnName="name" />
+                <ScalarProperty Name="principal_id" ColumnName="principal_id" />
+                <ScalarProperty Name="diagram_id" ColumnName="diagram_id" />
+                <ScalarProperty Name="version" ColumnName="version" />
+                <ScalarProperty Name="definition" ColumnName="definition" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Usuario">
+            <EntityTypeMapping TypeName="PruebaExamen.ControlEscolarModel.Usuario">
+              <MappingFragment StoreEntitySet="Usuario">
+                <ScalarProperty Name="Usuario1" ColumnName="Usuario" />
+                <ScalarProperty Name="Contrasenia" ColumnName="Contrasenia" />
+                <ScalarProperty Name="FK_ID_Rol" ColumnName="FK_ID_Rol" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="Ninguno" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>
