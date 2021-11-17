@@ -26,7 +26,9 @@ namespace Presentacion.Controllers.Materia
                 ViewBag.ape = alumno.ApePaterno_Alumno;
             }
             List<CE.Entidades.Materia> lista = listaMaterias.Respuesta;
-            return View(lista);            
+            ViewBag.Mensaje = listaMaterias.Mensaje;
+            ViewBag.Error = listaMaterias.Error;
+            return View(lista);
         }
 
         // GET: Materia/Details/5
@@ -39,6 +41,8 @@ namespace Presentacion.Controllers.Materia
                 ViewBag.nom = alumno.Nombre_Alumno;
                 ViewBag.ape = alumno.ApePaterno_Alumno;
             }
+            ViewBag.Mensaje = materia.Mensaje;
+            ViewBag.Error = materia.Error;
             return View(materia.Respuesta);
         }
 
@@ -47,7 +51,7 @@ namespace Presentacion.Controllers.Materia
         {
             CE.Entidades.Alumno alumno = (CE.Entidades.Alumno)Session["Usuario"];
             if (alumno != null)
-            {               
+            {
                 ViewBag.nom = alumno.Nombre_Alumno;
                 ViewBag.ape = alumno.ApePaterno_Alumno;
             }
@@ -78,16 +82,16 @@ namespace Presentacion.Controllers.Materia
 
             nombre = LimpiarNombre(nombre);
 
-                if (nombre.Length < 1 || costo < 0)
+            if (nombre.Length < 1 || costo < 0)
             {
                 ViewBag.Error = "Los valores no pueden ir vacios";
                 return RedirectToAction("Create", "Materia");
             }
             else
             {
-                Request<CE.Entidades.Materia> materia= negocioMateria.CreateMateria(nombre.ToUpper(),costo);
+                Request<CE.Entidades.Materia> materia = negocioMateria.CreateMateria(nombre.ToUpper(), costo);
 
-                
+
 
                 if (materia.Exito)
                 {
@@ -97,7 +101,7 @@ namespace Presentacion.Controllers.Materia
                 }
                 else
                 {
-                    ViewBag.Error = "No se pudo registrar la materia, intente de nuevo";
+                    ViewBag.Error = materia.Error;
                     return View();
                 }
             }
@@ -112,7 +116,7 @@ namespace Presentacion.Controllers.Materia
                 ViewBag.nom = alumno.Nombre_Alumno;
                 ViewBag.ape = alumno.ApePaterno_Alumno;
             }
-            CE.Entidades.Materia materia= negocioMateria.GetMateria(id).Respuesta;
+            CE.Entidades.Materia materia = negocioMateria.GetMateria(id).Respuesta;
             return View(materia);
         }
 
@@ -122,8 +126,8 @@ namespace Presentacion.Controllers.Materia
         {
             try
             {
-                negocioMateria.UpdateMateria(nombre,costo,id);
-                ViewBag.Exito = "Se actualizo la materia";
+                Request<CE.Entidades.Materia> materiaCreate = negocioMateria.UpdateMateria(nombre, costo, id);
+                ViewBag.Exito = materiaCreate.Exito;
                 return RedirectToAction("Index", "Materia");
             }
             catch
@@ -132,13 +136,13 @@ namespace Presentacion.Controllers.Materia
                 return View();
             }
         }
-       
+
         public ActionResult Delete(int id)
         {
             try
             {
-                negocioMateria.DeleteMateria(id);
-                ViewBag.Exito = "Se eliminó la materia";
+                Request<CE.Entidades.Materia> materiaDeleted = negocioMateria.DeleteMateria(id);
+                ViewBag.Exito = materiaDeleted.Exito;
                 return RedirectToAction("Index", "Materia");
             }
             catch

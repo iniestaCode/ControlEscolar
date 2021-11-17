@@ -17,7 +17,7 @@ namespace CE.Negocio
 
         public Request<Rol> CreateRol(string nombre) => datosRol.CreateRol(nombre);
 
-        public Request<Rol> UpdateRol(int id,string nombre) => datosRol.UpdateRol(id,nombre);
+        public Request<Rol> UpdateRol(int id, string nombre) => datosRol.UpdateRol(id, nombre);
 
         public Request<Rol> DeleteRol(int id) => datosRol.DeleteRol(id);
 

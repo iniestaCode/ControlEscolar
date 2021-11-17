@@ -23,9 +23,9 @@ namespace Presentacion.Controllers.AlumnoMateria
                 ViewBag.nom = alumno.Nombre_Alumno;
                 ViewBag.ape = alumno.ApePaterno_Alumno;
             }
-            Request<List<CE.Entidades.Alumno_Materia>> lista =  alumnoMateria.GetAlumnoMateria(id);
+            Request<List<CE.Entidades.Alumno_Materia>> lista = alumnoMateria.GetAlumnoMateria(id);
             return View(lista.Respuesta);
-        }       
+        }
         // GET: AlumnoMateria/Create
         public ActionResult Create()
         {
@@ -53,14 +53,14 @@ namespace Presentacion.Controllers.AlumnoMateria
             {
                 return View();
             }
-        }        
+        }
 
         [HttpGet]
         public double ObtenerMonto(int ID_Materia, double monto)
         {
             Request<CE.Entidades.Materia> materia = negocioMateria.GetMateria(ID_Materia);
-            ViewBag.Materia = materia.Respuesta;            
-            return double.Parse(materia.Respuesta.Costo_Materia.ToString())+monto;            
+            ViewBag.Materia = materia.Respuesta;
+            return double.Parse(materia.Respuesta.Costo_Materia.ToString()) + monto;
         }
     }
 }

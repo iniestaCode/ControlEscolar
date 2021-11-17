@@ -10,19 +10,24 @@ namespace CE.Datos
 {
     public class DatosRol
     {
-            
+
         public Request<List<Rol>> GetRols()
         {
             try
             {
-                using(DBConnection db = new DBConnection())
+                using (DBConnection db = new DBConnection())
                 {
                     List<Rol> listaRoles = db.Rol.ToList();
-                    return new Request<List<Rol>>() { Exito = true, Mensaje = "Se ha consultado con exito!!", Respuesta = listaRoles };
+                    if (listaRoles == null)
+                    {
+                        return new Request<List<Rol>>() { Exito = false, Mensaje = "No se encontraron roles" };
+                    }
+                    return new Request<List<Rol>>() { Mensaje = "Se ha consultado con exito!!", Respuesta = listaRoles };
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                return new Request<List<Rol>>() { Exito = false, Mensaje = "No se puede consultar la información!!", Error = ex.Message };
+                return new Request<List<Rol>>() { Exito = false, Error = ex.Message };
             }
         }
 
@@ -33,11 +38,12 @@ namespace CE.Datos
                 using (DBConnection db = new DBConnection())
                 {
                     Rol rol = db.Rol.First(r => r.ID_Rol == ID_Rol);
-                    return new Request<Rol>() { Exito = true, Mensaje = "Se encontró el rol", Respuesta= rol};
+                    return new Request<Rol>() { Exito = true, Mensaje = "Se encontró el rol", Respuesta = rol };
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
-                return new Request<Rol>() { Exito = false, Error=ex.Message };
+                return new Request<Rol>() { Exito = false, Error = ex.Message };
             }
         }
 
@@ -45,13 +51,14 @@ namespace CE.Datos
         {
             try
             {
-                using(DBConnection db = new DBConnection())
+                using (DBConnection db = new DBConnection())
                 {
                     Rol rol = new Rol() { Nombre_Rol = nombre };
                     db.Rol.Add(rol);
                     return new Request<Rol> { Mensaje = "Se registró el rol con éxito", Respuesta = rol };
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new Request<Rol>() { Exito = false, Error = ex.Message };
             }
@@ -61,15 +68,16 @@ namespace CE.Datos
         {
             try
             {
-                using(DBConnection db = new DBConnection())
+                using (DBConnection db = new DBConnection())
                 {
                     Rol rol = db.Rol.First(r => r.ID_Rol == ID_Rol);
                     db.Rol.Attach(rol);
                     db.Entry(rol).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
-                    return new Request<Rol>() { Mensaje = "Se modificó el rol con éxito", Respuesta=rol };
+                    return new Request<Rol>() { Mensaje = "Se modificó el rol con éxito", Respuesta = rol };
                 }
-            }catch(Exception ex)
+            }
+            catch (Exception ex)
             {
                 return new Request<Rol>() { Exito = false, Error = ex.Message };
             }

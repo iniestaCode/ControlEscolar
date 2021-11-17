@@ -41,28 +41,28 @@
                placeholder="Subtotal">
     </div>
 </div>
-        <div class="card shadow mb-4">
-            <div class="card-header py-3">
-                <h6 class="m-0 font-weight-bold text-primary">Materias Agregadas</h6>
-            </div>
-            <p style="color:forestgreen">@ViewBag.Exito</p>
-            <div class="card-body">
-                <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
-                        <thead>
-                            <tr>                          
-                                <th>Nombre</th>
-                                <th>Costo</th>                                                            
-                            </tr>
-                        </thead>
-                        <tbody>                                                       
-                        </tbody>
-                    </table>
-                </div>
-            </div>
+<div class="card shadow mb-4">
+    <div class="card-header py-3">
+        <h6 class="m-0 font-weight-bold text-primary">Materias Agregadas</h6>
+    </div>
+    <p style="color:forestgreen">@ViewBag.Exito</p>
+    <div class="card-body">
+        <div class="table-responsive">
+            <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Costo</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
         </div>
-    
-        <script>
+    </div>
+</div>
+
+<script>
     // Evento que envía una petición Ajax al servidor
     function myfunction(id,montoQ,nombre,costo) {
            $.ajax({
@@ -79,9 +79,9 @@
         });
             }
 
-        function agregar(id, nombre, costo) {            
+        function agregar(id, nombre, costo) {
             $('#dataTable').append("<tr id='" + id + costo + "'><td>" + nombre + "</td><td>" + costo + "</td></tr>");
             }
-           
-       
-        </script>
+
+
+</script>

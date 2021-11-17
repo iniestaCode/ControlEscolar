@@ -19,36 +19,34 @@ namespace Presentacion.Controllers.Registro
 
         // POST: Registro/Create
         [HttpPost]
-        public ActionResult Create(string nombre,string apePaterno, string apeMaterno, string usuario, string password)
+        public ActionResult Create(string nombre, string apePaterno, string apeMaterno, string usuario, string password)
         {
             try
             {
-                if(nombre.Length<1 || apePaterno.Length<1 || usuario.Length < 3 || password.Length < 8)
-                {                    
+                if (nombre.Length < 1 || apePaterno.Length < 1 || usuario.Length < 3 || password.Length < 8)
+                {
                     ViewBag.Error = "Los valores no pueden ir vacios";
                     return RedirectToAction("Create", "Registro");
                 }
                 else
                 {
-                    Request<Usuario> userC = negocioUsuario.CreateUsuario(usuario, password,1);
 
-                    Request<CE.Entidades.Alumno> alumno = negocioAlumno.CreateAlumno(nombre.ToUpper(), apePaterno.ToUpper(), apeMaterno.ToUpper(), userC.Respuesta.Usuario1);
+                    Request<CE.Entidades.Alumno> alumno = negocioAlumno.CreateAlumno(nombre.ToUpper(), apePaterno.ToUpper(), apeMaterno.ToUpper(), usuario, password);
 
                     if (alumno.Exito)
-                    {                        
-                        ViewBag.Exito = userC.Mensaje + ", ahora inicia sesión";
+                    {
+                        ViewBag.Exito = alumno.Mensaje + ", ahora inicia sesión";
                         return View("../Login/Login");
-                       
+
                     }
                     else
                     {
-                        Request<Usuario> userB = negocioUsuario.DeleteUsuario(usuario);
                         ViewBag.Error = "No se pudo crear su cuenta";
                         return RedirectToAction("Create");
                     }
                 }
 
-                             
+
             }
             catch
             {
@@ -56,6 +54,6 @@ namespace Presentacion.Controllers.Registro
                 return View("Create");
             }
         }
-              
+
     }
 }
