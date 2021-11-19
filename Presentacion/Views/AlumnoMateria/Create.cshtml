@@ -124,10 +124,10 @@
             data: JSON.stringify({materias:ids}),
             dataType: "json",
                success: function (s) {
-                   Alert("Se agregaron");
+                   window.location.href = '/AlumnoMateria/MisMaterias/' + @ViewBag.ID;
                },
             error: function (e) {
-                Alert("fallo");
+                alert("fallo");
             }
         });
     }

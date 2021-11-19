@@ -42,7 +42,7 @@ namespace Presentacion.Controllers.AlumnoMateria
 
         // POST: AlumnoMateria/Create
         [HttpPost]
-        public ActionResult Create(string materias)
+        public JsonResult Create(string materias)
         {
             try
             {
@@ -60,19 +60,19 @@ namespace Presentacion.Controllers.AlumnoMateria
                     }
 
                 }                
-
-                return RedirectToAction("Index","AlumnoMateria",ID_Alumno);                   
+                return Json(ID_Alumno);
             }
             catch
             {
-                return View();
+                int ID_Alumno = 0;
+                return Json ( ID_Alumno);
             }
         }
 
-        public ActionResult MisMaterias(int ID)
+        public ActionResult MisMaterias(int id)
         {
 
-            Request<List<CE.Entidades.Alumno_Materia>> misMaterias = alumnoMateria.GetAlumnoMateria(ID);            
+            Request<List<CE.Entidades.Alumno_Materia>> misMaterias = alumnoMateria.GetAlumnoMateria(id);            
 
             return View(misMaterias.Respuesta);
         }
