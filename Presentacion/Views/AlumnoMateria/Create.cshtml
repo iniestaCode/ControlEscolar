@@ -3,13 +3,11 @@
     ViewBag.Title = "Escoger Materias";
     ViewBag.Nombre = ViewBag.nom;
     ViewBag.ApellidoPaterno = ViewBag.ape;
+    ViewBag.ID = ViewBag.id;
     Layout = "~/Views/Shared/BaseIndex.cshtml";
-    List<CE.Entidades.Materia> listaMaterias = new List<CE.Entidades.Materia>();
-    listaMaterias.Add(ViewBag.Materia);
 }
 
-@{
-    foreach (var item in Model)
+    @foreach (var item in Model)
     {
 
         <div class="col-xl-3 col-md-6 mb-4">
@@ -31,7 +29,7 @@
         </div>
 
     }
-}
+
 <div class="form-group row">
     <div class="col-sm-6 mb-3 mb-sm-0">
         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
@@ -40,19 +38,28 @@
         <input type="text" class="form-control form-control-user" readonly value="0" id="subtotal" name="subtotal"
                placeholder="Subtotal">
     </div>
+    
 </div>
+<div class="form-group row">
+    <div class="col-sm-6 mb-3 mb-sm-0">
+        <br />
+        <button class="btn btn-primary" onclick="insertToDB()">Guardar</button>
+    </div>
+</div>
+
 <div class="card shadow mb-4">
     <div class="card-header py-3">
         <h6 class="m-0 font-weight-bold text-primary">Materias Agregadas</h6>
-    </div>
-    <p style="color:forestgreen">@ViewBag.Exito</p>
+    </div>    
     <div class="card-body">
         <div class="table-responsive">
             <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                 <thead>
                     <tr>
+                        <th>ID_Materia</th>
                         <th>Nombre</th>
                         <th>Costo</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +74,7 @@
     function myfunction(id,montoQ,nombre,costo) {
            $.ajax({
             type: "GET",
-            url: '@Url.Action("ObtenerMonto","AlumnoMateria")',
+            url: '@Url.Action("SumarMonto", "AlumnoMateria")',
             contentType: "application/json; charset=utf-8",
                data: { ID_Materia: id, monto: parseFloat(montoQ) },
             dataType: "json",
@@ -79,9 +86,49 @@
         });
             }
 
-        function agregar(id, nombre, costo) {
-            $('#dataTable').append("<tr id='" + id + costo + "'><td>" + nombre + "</td><td>" + costo + "</td></tr>");
+    function agregar(id, nombre, costo) {
+            $('#dataTable').append("<tr id='id" + id + "," + parseInt(costo) + "' name='agregar'><td id="+id+">"+id+" </td> <td>" + nombre + "</td><td>" + costo + "</td><td><button class='btn btn-danger' onclick='borrarFila(this,"+id+")'>Eliminar</button></td></tr>");
             }
 
+    function borrarFila(t,id) {
+        var td = t.parentNode;
+        var tr = td.parentNode;
+        var table = tr.parentNode;
+        table.removeChild(tr);
+         $.ajax({
+            type: "GET",
+            url: '@Url.Action("RestarMonto", "AlumnoMateria")',
+            contentType: "application/json; charset=utf-8",
+             data: { ID_Materia: id, monto: parseFloat($('#subtotal').val()) },
+            dataType: "json",
+               success: function (s) {
+                   $('#subtotal').val(s);
+               },
+               error: function () {alert("Error")}
+        });
+    }
 
+    function insertToDB() {
+        var ids = @ViewBag.ID;
+        $('#dataTable tr').each(function () {
+            var ID = $(this).find("td").eq(0).html();
+            if (ID != undefined) {
+                ids= ids+","+ID;
+            }
+        });
+
+        $.ajax({
+            type: "POST",
+            url: '@Url.Action("Create", "AlumnoMateria")',
+            contentType: "application/json; charset=utf-8",
+            data: JSON.stringify({materias:ids}),
+            dataType: "json",
+               success: function (s) {
+                   Alert("Se agregaron");
+               },
+            error: function (e) {
+                Alert("fallo");
+            }
+        });
+    }
 </script>

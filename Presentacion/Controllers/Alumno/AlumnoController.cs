@@ -29,9 +29,8 @@ namespace Presentacion.Controllers.Alumno
                     ViewBag.ape = alumno.ApePaterno_Alumno;
                 }
 
-                List<CE.Entidades.Alumno> lista = listaAlumnos.Respuesta;
                 ViewBag.Mensaje = listaAlumnos.Mensaje;
-                return View(lista);
+                return View(listaAlumnos.Respuesta);
 
             }
             ViewBag.Error = listaAlumnos.Error;
@@ -72,27 +71,30 @@ namespace Presentacion.Controllers.Alumno
             {
                 ViewBag.nom = alumno.Nombre_Alumno;
                 ViewBag.ape = alumno.ApePaterno_Alumno;
+
             }
             return View();
         }
 
         // POST: Alumno/Create
+
         [HttpPost]
         public ActionResult Create(string nombre, string apePaterno, string usuario, string password, string apeMaterno)
         {
+
             if (nombre.Length < 1 || apePaterno.Length < 1 || usuario.Length < 3 || password.Length < 8)
             {
-                ViewBag.Error = "Los valores no pueden ir vacios";
-                return RedirectToAction("Create", "Registro");
+                ViewBag.Error = "Valores introducidos no validos";
+                return RedirectToAction("Create", "Alumno");
             }
             else
             {
                 Request<CE.Entidades.Alumno> alumno = negocioAlumno.CreateAlumno(nombre.ToUpper(), apePaterno.ToUpper(), apeMaterno.ToUpper(), usuario, password);
-
                 if (alumno.Exito)
                 {
+                    Request<List<CE.Entidades.Alumno>> listaAlumno = negocioAlumno.GetAlumnos();
                     ViewBag.Exito = alumno.Mensaje;
-                    return RedirectToAction("Index", "Alumno");
+                    return View("Index", listaAlumno.Respuesta);
 
                 }
                 else
@@ -124,7 +126,7 @@ namespace Presentacion.Controllers.Alumno
         {
             try
             {
-                Request<CE.Entidades.Alumno> alumno = negocioAlumno.UpdateAlumno(nombre, apePaterno, apeMaterno, usuario);
+                Request<CE.Entidades.Alumno> alumno = negocioAlumno.UpdateAlumno(nombre.ToUpper(), apePaterno.ToUpper(), apeMaterno.ToUpper(), usuario);
                 if (alumno.Exito)
                 {
                     ViewBag.Exito = alumno.Mensaje;

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="PruebaExamen.ControlEscolarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="PruebaExamen.ControlEscolarModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="Alumno">
           <Key>
             <PropertyRef Name="ID_Alumno" />
@@ -20,7 +20,7 @@
           <Key>
             <PropertyRef Name="ID_Alumno_Materia" />
           </Key>
-          <Property Name="ID_Alumno_Materia" Type="int" Nullable="false" />
+          <Property Name="ID_Alumno_Materia" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FK_ID_Alumno" Type="int" Nullable="false" />
           <Property Name="FK_ID_Materia" Type="int" Nullable="false" />
         </EntityType>
@@ -131,8 +131,7 @@
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="PruebaExamen.ControlEscolarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -269,7 +268,7 @@
             <End Role="Rol" EntitySet="Rol" />
             <End Role="Usuario" EntitySet="Usuario" />
           </AssociationSet>
-        </EntityContainer>
+          </EntityContainer>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -289,11 +288,11 @@
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Alumno_Materia">
-            <EntityTypeMapping TypeName="PruebaExamen.ControlEscolarModel.Alumno_Materia">
+            <EntityTypeMapping TypeName="IsTypeOf(PruebaExamen.ControlEscolarModel.Alumno_Materia)">
               <MappingFragment StoreEntitySet="Alumno_Materia">
                 <ScalarProperty Name="ID_Alumno_Materia" ColumnName="ID_Alumno_Materia" />
-                <ScalarProperty Name="FK_ID_Alumno" ColumnName="FK_ID_Alumno" />
                 <ScalarProperty Name="FK_ID_Materia" ColumnName="FK_ID_Materia" />
+                <ScalarProperty Name="FK_ID_Alumno" ColumnName="FK_ID_Alumno" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -336,7 +335,7 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-        </EntityContainerMapping>
+          </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>
   </edmx:Runtime>

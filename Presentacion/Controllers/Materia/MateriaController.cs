@@ -26,7 +26,7 @@ namespace Presentacion.Controllers.Materia
                 ViewBag.ape = alumno.ApePaterno_Alumno;
             }
             List<CE.Entidades.Materia> lista = listaMaterias.Respuesta;
-            ViewBag.Mensaje = listaMaterias.Mensaje;
+            
             ViewBag.Error = listaMaterias.Error;
             return View(lista);
         }
@@ -90,14 +90,10 @@ namespace Presentacion.Controllers.Materia
             else
             {
                 Request<CE.Entidades.Materia> materia = negocioMateria.CreateMateria(nombre.ToUpper(), costo);
-
-
-
                 if (materia.Exito)
                 {
-                    ViewBag.Exito = materia.Mensaje;
+                    ViewBag.Exito = "Materia registrada";
                     return RedirectToAction("Index", "Materia");
-
                 }
                 else
                 {
@@ -126,8 +122,8 @@ namespace Presentacion.Controllers.Materia
         {
             try
             {
-                Request<CE.Entidades.Materia> materiaCreate = negocioMateria.UpdateMateria(nombre, costo, id);
-                ViewBag.Exito = materiaCreate.Exito;
+                Request<CE.Entidades.Materia> materiaUpdate = negocioMateria.UpdateMateria(nombre.ToUpper(), costo, id);
+                ViewBag.Mensaje = materiaUpdate.Mensaje;
                 return RedirectToAction("Index", "Materia");
             }
             catch
@@ -142,7 +138,7 @@ namespace Presentacion.Controllers.Materia
             try
             {
                 Request<CE.Entidades.Materia> materiaDeleted = negocioMateria.DeleteMateria(id);
-                ViewBag.Exito = materiaDeleted.Exito;
+                ViewBag.Mensaje = materiaDeleted.Mensaje;
                 return RedirectToAction("Index", "Materia");
             }
             catch

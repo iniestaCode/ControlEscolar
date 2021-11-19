@@ -34,7 +34,7 @@ namespace Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Materia materia = db.Materia.First(m => m.ID_Materia == ID_Materia);
+                    Materia materia = db.Materia.FirstOrDefault(m => m.ID_Materia == ID_Materia);
 
                     if (materia != null)
                     {
@@ -93,9 +93,13 @@ namespace Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Materia materia = db.Materia.First(m => m.ID_Materia == ID_Materia);
+                    Materia materia = db.Materia.FirstOrDefault(m => m.ID_Materia == ID_Materia);
                     materia.Nombre_Materia = nombre;
                     materia.Costo_Materia = (decimal)costo;
+                    if (MateriaExiste(nombre))
+                    {
+                        return new Request<Materia> { Mensaje = "La materia ya existe", Exito = false };
+                    }
                     db.Materia.Attach(materia);
                     db.Entry(materia).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
@@ -114,7 +118,7 @@ namespace Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Materia materia = db.Materia.First(m => m.ID_Materia == ID_Materia);
+                    Materia materia = db.Materia.FirstOrDefault(m => m.ID_Materia == ID_Materia);
                     materia.Activo_Materia = "I";
                     db.Materia.Attach(materia);
                     db.Entry(materia).State = System.Data.Entity.EntityState.Modified;

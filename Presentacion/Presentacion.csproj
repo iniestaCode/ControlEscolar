@@ -198,6 +198,7 @@
     <Content Include="Views\Materia\Index.cshtml" />
     <Content Include="Views\AlumnoMateria\Index.cshtml" />
     <Content Include="Views\AlumnoMateria\Create.cshtml" />
+    <Content Include="Views\AlumnoMateria\MisMaterias.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

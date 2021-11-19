@@ -9,12 +9,12 @@
 <form class="user" method="post" action="/Materia/Create">
     <div class="form-group">
         <input type="text" class="form-control form-control-user text-uppercase" id="nombre" name="nombre"
-               placeholder="Nombre" pattern="[A-Z]" required>
+               placeholder="Nombre" required>
     </div>
     <div class="form-group row">
         <div class="col-sm-6 mb-3 mb-sm-0">
             <input type="text" class="form-control form-control-user" id="costo" name="costo"
-                   placeholder="Costo" pattern="[0-9]" required>
+                   placeholder="Costo" pattern="^\d*(\.\d{0,2})?$" required>
         </div>     
     </div>
     

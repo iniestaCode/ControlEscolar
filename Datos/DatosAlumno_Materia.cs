@@ -60,7 +60,7 @@ namespace Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Materia materia = db.Materia.First(m => m.ID_Materia == ID_Materia);
+                    Materia materia = db.Materia.FirstOrDefault(m => m.ID_Materia == ID_Materia);
                     double costo = (double)materia.Costo_Materia;
                     subtotal = monto + costo;
                     return new Request<double>() { Respuesta = subtotal };

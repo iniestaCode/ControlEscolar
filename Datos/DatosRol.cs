@@ -37,7 +37,7 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Rol rol = db.Rol.First(r => r.ID_Rol == ID_Rol);
+                    Rol rol = db.Rol.FirstOrDefault(r => r.ID_Rol == ID_Rol);
                     return new Request<Rol>() { Exito = true, Mensaje = "Se encontró el rol", Respuesta = rol };
                 }
             }
@@ -70,7 +70,7 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Rol rol = db.Rol.First(r => r.ID_Rol == ID_Rol);
+                    Rol rol = db.Rol.FirstOrDefault(r => r.ID_Rol == ID_Rol);
                     db.Rol.Attach(rol);
                     db.Entry(rol).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
@@ -89,7 +89,7 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Rol rol = db.Rol.First(r => r.ID_Rol == ID_Rol);
+                    Rol rol = db.Rol.FirstOrDefault(r => r.ID_Rol == ID_Rol);
                     rol.Activo_Rol = "I";
                     db.Rol.Attach(rol);
                     db.Entry(rol).State = System.Data.Entity.EntityState.Modified;

@@ -16,7 +16,7 @@ namespace Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    List<Alumno> listaAlumnos = db.Alumno.Include("Usuario").Include("Rol").Where(x => x.Activo_Alumno == "A").Where(u => u.FK_ID_Usuario != "administrador" || u.FK_ID_Usuario == "admin").ToList();
+                    List<Alumno> listaAlumnos = db.Alumno.Include("Usuario").Where(x => x.Activo_Alumno == "A").Where(u => u.FK_ID_Usuario != "administrador" || u.FK_ID_Usuario == "admin").ToList();
                     if (listaAlumnos == null)
                     {
                         return new Request<List<Alumno>>() { Error = "No se encontraron alumnos", Exito = false };
@@ -36,11 +36,11 @@ namespace Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario user = db.Usuario.First(u => u.Usuario1 == usuario);
+                    Usuario user = db.Usuario.FirstOrDefault(u => u.Usuario1 == usuario);
 
                     if (user != null)
                     {
-                        Alumno alumnoE = db.Alumno.Include("Usuario").Where(u => u.FK_ID_Usuario == user.Usuario1).First();
+                        Alumno alumnoE = db.Alumno.Include("Usuario").Where(u => u.FK_ID_Usuario == user.Usuario1).FirstOrDefault();
                         return new Request<Alumno>() { Mensaje = "Alumno encontrado", Respuesta = alumnoE };
                     }
                     else
@@ -73,13 +73,14 @@ namespace Datos
                 }
                 using (DBConnection db = new DBConnection())
                 {
-                    int rolAlumno = int.Parse(db.Rol.First(x => x.Nombre_Rol == "Alumno").ToString());
+                    Rol rol = db.Rol.FirstOrDefault(x => x.Nombre_Rol == "Alumno");
+                    int rolAlumno = rol.ID_Rol;
                     if (!ExisteUsuario(usuario))
                     {
                         Request<Usuario> usuarioCreado = datosUsuario.CreateUsuario(usuario, password, rolAlumno);
                         if (usuarioCreado.Exito)
                         {
-                            Alumno alumno = new Alumno() { Nombre_Alumno = nombre, ApePaterno_Alumno = apePaterno, ApeMaterno_Alumno = apeMaterno, FK_ID_Usuario = usuarioCreado.Respuesta.Usuario1 };
+                            Alumno alumno = new Alumno() { Nombre_Alumno = nombre, ApePaterno_Alumno = apePaterno, ApeMaterno_Alumno = apeMaterno, FK_ID_Usuario = usuarioCreado.Respuesta.Usuario1 ,Activo_Alumno="A" };
                             db.Alumno.Add(alumno);
                             db.SaveChanges();
                             return new Request<Alumno> { Mensaje = "Se registró el alumno con éxito", Respuesta = alumno };
@@ -117,11 +118,11 @@ namespace Datos
                 using (DBConnection db = new DBConnection())
                 {
 
-                    Usuario user = db.Usuario.First(u => u.Usuario1 == usuario);
-                    Alumno alumnoEditado = db.Alumno.First(u => u.FK_ID_Usuario == user.Usuario1);
-                    alumnoEditado.Nombre_Alumno = nombre;
-                    alumnoEditado.ApePaterno_Alumno = apePaterno;
-                    alumnoEditado.ApeMaterno_Alumno = apeMaterno;
+                    Usuario user = db.Usuario.FirstOrDefault(u => u.Usuario1 == usuario);
+                    Alumno alumnoEditado = db.Alumno.FirstOrDefault(u => u.FK_ID_Usuario == user.Usuario1);
+                    alumnoEditado.Nombre_Alumno = nombre.ToUpper();
+                    alumnoEditado.ApePaterno_Alumno = apePaterno.ToUpper();
+                    alumnoEditado.ApeMaterno_Alumno = apeMaterno.ToUpper();
                     db.Alumno.Attach(alumnoEditado);
                     db.Entry(alumnoEditado).State = System.Data.Entity.EntityState.Modified;
                     db.SaveChanges();
@@ -140,8 +141,8 @@ namespace Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario user = db.Usuario.First(u => u.Usuario1 == usuario);
-                    Alumno alumnoEliminado = db.Alumno.First(u => u.FK_ID_Usuario == user.Usuario1);
+                    Usuario user = db.Usuario.FirstOrDefault(u => u.Usuario1 == usuario);
+                    Alumno alumnoEliminado = db.Alumno.FirstOrDefault(u => u.FK_ID_Usuario == user.Usuario1);
                     alumnoEliminado.Activo_Alumno = "I";
                     db.Alumno.Attach(alumnoEliminado);
                     db.Entry(alumnoEliminado).State = System.Data.Entity.EntityState.Modified;

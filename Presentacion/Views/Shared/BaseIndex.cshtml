@@ -10,13 +10,13 @@
 
 @if (alum != null)
 {
-    @if (ViewBag.Error != null)
+    if(ViewBag.Error != null)
     {
         <div class="alert alert-danger" role="alert">
             @ViewBag.Error
         </div>
     }
-    @if (ViewBag.Mensaje != null)
+    if(ViewBag.Mensaje != null || ViewBag.Mensaje == "")
     {
         <div class="alert alert-success" role="alert">
             @ViewBag.Mensaje
@@ -53,7 +53,7 @@
                             <div>
                         <li class="nav-item active">
                             <a class="nav-link">
-                                <span>Mis Materias</span>
+                                <span>Materias</span>
                             </a>
 
                         </li>
@@ -62,13 +62,20 @@
 
                 <div>
                     <li class="nav-item">
+                        <a class="nav-link" href="/AlumnoMateria/MisMaterias/@alum.ID_Alumno">
+                            <span>Mis Materias</span>
+                        </a>
+                    </li>
+                </div>             
+                <div>
+                    <li class="nav-item">
                         <a class="nav-link" href="/AlumnoMateria/Create">
                             <span>Cotizar Materias</span>
                         </a>
                     </li>
                 </div>
                 <hr class="sidebar-divider">
-        </div>
+</div>
     }
 
 

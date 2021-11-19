@@ -34,6 +34,7 @@ namespace Presentacion.Controllers.AlumnoMateria
             {
                 ViewBag.nom = alumno.Nombre_Alumno;
                 ViewBag.ape = alumno.ApePaterno_Alumno;
+                ViewBag.id = alumno.ID_Alumno;
             }
             Request<List<CE.Entidades.Materia>> listaMaterias = negocioMateria.GetMaterias();
             return View(listaMaterias.Respuesta);
@@ -41,13 +42,26 @@ namespace Presentacion.Controllers.AlumnoMateria
 
         // POST: AlumnoMateria/Create
         [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        public ActionResult Create(string materias)
         {
             try
             {
-                // TODO: Add insert logic here
+                Array listMaterias = materias.Split(',');
 
-                return RedirectToAction("Index");
+                int ID_Alumno = int.Parse(listMaterias.GetValue(0).ToString());
+                listMaterias.SetValue("vacio", 0);
+
+                foreach (string i in listMaterias)
+                {
+                    if (i != "vacio")
+                    {
+
+                        alumnoMateria.CreateAlumnoMateria(ID_Alumno, int.Parse(i.ToString()));
+                    }
+
+                }                
+
+                return RedirectToAction("Index","AlumnoMateria",ID_Alumno);                   
             }
             catch
             {
@@ -55,12 +69,27 @@ namespace Presentacion.Controllers.AlumnoMateria
             }
         }
 
+        public ActionResult MisMaterias(int ID)
+        {
+
+            Request<List<CE.Entidades.Alumno_Materia>> misMaterias = alumnoMateria.GetAlumnoMateria(ID);            
+
+            return View(misMaterias.Respuesta);
+        }
+
         [HttpGet]
-        public double ObtenerMonto(int ID_Materia, double monto)
+        public double SumarMonto(int ID_Materia, double monto)
         {
             Request<CE.Entidades.Materia> materia = negocioMateria.GetMateria(ID_Materia);
             ViewBag.Materia = materia.Respuesta;
             return double.Parse(materia.Respuesta.Costo_Materia.ToString()) + monto;
+        }
+
+        public double RestarMonto(int ID_Materia, double monto)
+        {
+            Request<CE.Entidades.Materia> materia = negocioMateria.GetMateria(ID_Materia);
+            ViewBag.Materia = materia.Respuesta;
+            return monto - double.Parse(materia.Respuesta.Costo_Materia.ToString());
         }
     }
 }

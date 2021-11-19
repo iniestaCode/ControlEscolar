@@ -33,7 +33,7 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario usr = db.Usuario.First(u => u.Usuario1 == usuario);
+                    Usuario usr = db.Usuario.FirstOrDefault(u => u.Usuario1 == usuario);
                     return new Request<Usuario>() { Mensaje = "Se encontró el usuario", Respuesta = usr };
                 }
             }
@@ -67,7 +67,7 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario usuarioEncontrado = db.Usuario.First(u => u.Usuario1 == usuario);
+                    Usuario usuarioEncontrado = db.Usuario.FirstOrDefault(u => u.Usuario1 == usuario);
                     if (usuarioEncontrado == null)
                     {
                         return new Request<Usuario>() { Error = "El usuario no existe", Exito = false };
@@ -90,7 +90,7 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario usuarioEncontrado = db.Usuario.First(u => u.Usuario1 == usuario);
+                    Usuario usuarioEncontrado = db.Usuario.FirstOrDefault(u => u.Usuario1 == usuario);
                     if (usuarioEncontrado == null)
                     {
                         return new Request<Usuario>() { Error = "El usuario no existe", Exito = false };
@@ -114,7 +114,7 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario usuarioEncontrado = db.Usuario.First(u => u.Usuario1 == usuario);
+                    Usuario usuarioEncontrado = db.Usuario.FirstOrDefault(u => u.Usuario1 == usuario);
                     db.Usuario.Remove(usuarioEncontrado);
                     db.SaveChanges();
                     return new Request<Usuario>() { Mensaje = "Se eliminó el usuario" };
@@ -132,7 +132,7 @@ namespace CE.Datos
             {
                 using (DBConnection db = new DBConnection())
                 {
-                    Usuario user = db.Usuario.First(u => u.Usuario1 == usuario);
+                    Usuario user = db.Usuario.FirstOrDefault(u => u.Usuario1 == usuario);
                     if (user != null)
                     {
                         if (user.Contrasenia == Encriptar(password))
